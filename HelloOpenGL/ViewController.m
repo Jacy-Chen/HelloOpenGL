@@ -17,6 +17,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    self.glView = [[OpenGLView alloc] initWithFrame:self.view.bounds];
+    [self.view addSubview:self.glView];
+    
 }
 
 - (void)didReceiveMemoryWarning {
