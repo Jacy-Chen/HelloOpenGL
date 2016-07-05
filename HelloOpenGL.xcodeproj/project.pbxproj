@@ -13,6 +13,9 @@
 		4AFA68541D2C3FC800CD675B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AFA68521D2C3FC800CD675B /* Main.storyboard */; };
 		4AFA68561D2C3FC800CD675B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AFA68551D2C3FC800CD675B /* Assets.xcassets */; };
 		4AFA68591D2C3FC800CD675B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AFA68571D2C3FC800CD675B /* LaunchScreen.storyboard */; };
+		4AFA68621D2C400D00CD675B /* OpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA68611D2C400D00CD675B /* OpenGLView.m */; };
+		4AFA68641D2C401C00CD675B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AFA68631D2C401C00CD675B /* OpenGLES.framework */; };
+		4AFA68661D2C402900CD675B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AFA68651D2C402900CD675B /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,10 @@
 		4AFA68551D2C3FC800CD675B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4AFA68581D2C3FC800CD675B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4AFA685A1D2C3FC800CD675B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4AFA68601D2C400D00CD675B /* OpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLView.h; sourceTree = "<group>"; };
+		4AFA68611D2C400D00CD675B /* OpenGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenGLView.m; sourceTree = "<group>"; };
+		4AFA68631D2C401C00CD675B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		4AFA68651D2C402900CD675B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +40,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4AFA68661D2C402900CD675B /* QuartzCore.framework in Frameworks */,
+				4AFA68641D2C401C00CD675B /* OpenGLES.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +51,8 @@
 		4AFA683D1D2C3FC800CD675B = {
 			isa = PBXGroup;
 			children = (
+				4AFA68651D2C402900CD675B /* QuartzCore.framework */,
+				4AFA68631D2C401C00CD675B /* OpenGLES.framework */,
 				4AFA68481D2C3FC800CD675B /* HelloOpenGL */,
 				4AFA68471D2C3FC800CD675B /* Products */,
 			);
@@ -67,6 +78,8 @@
 				4AFA68571D2C3FC800CD675B /* LaunchScreen.storyboard */,
 				4AFA685A1D2C3FC800CD675B /* Info.plist */,
 				4AFA68491D2C3FC800CD675B /* Supporting Files */,
+				4AFA68601D2C400D00CD675B /* OpenGLView.h */,
+				4AFA68611D2C400D00CD675B /* OpenGLView.m */,
 			);
 			path = HelloOpenGL;
 			sourceTree = "<group>";
@@ -152,6 +165,7 @@
 				4AFA68511D2C3FC800CD675B /* ViewController.m in Sources */,
 				4AFA684E1D2C3FC800CD675B /* AppDelegate.m in Sources */,
 				4AFA684B1D2C3FC800CD675B /* main.m in Sources */,
+				4AFA68621D2C400D00CD675B /* OpenGLView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
