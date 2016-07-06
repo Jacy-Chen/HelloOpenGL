@@ -7,6 +7,7 @@
 //
 
 #import "OpenGLView.h"
+#import "CC3GLMatrix.h"
 
 //structure for vertexs
 typedef struct {
@@ -14,19 +15,29 @@ typedef struct {
     float Color[4];
 } Vertex;
 
-//four vertex structure, which will be used to make triangles
+////Four vertex structure, which will be used to make triangles
+//const Vertex Vertices[] = {
+//    {{1, -1, 0}, {1, 0, 0, 1}},
+//    {{1, 1, 0}, {0, 1, 0, 1}},
+//    {{-1, 1, 0}, {0, 0, 1, 1}},
+//    {{-1, -1, 0}, {0, 0, 0, 1}}
+//};
+
+// Modify vertices so they are within projection near/far planes
 const Vertex Vertices[] = {
-    {{1, -1, 0}, {1, 0, 0, 1}},
-    {{1, 1, 0}, {0, 1, 0, 1}},
-    {{-1, 1, 0}, {0, 0, 1, 1}},
-    {{-1, -1, 0}, {0, 0, 0, 1}}
+    {{1, -1, -7}, {1, 0, 0, 1}},
+    {{1, 1, -7}, {0, 1, 0, 1}},
+    {{-1, 1, -7}, {0, 0, 1, 1}},
+    {{-1, -1, -7}, {0, 0, 0, 1}}
 };
 
-//two triangles with their vertex
+//Two triangles with their vertex
 const GLubyte Indices[] = {
     0, 1, 2,
     2, 3, 0
 };
+
+
 
 @implementation OpenGLView
 
@@ -66,15 +77,18 @@ const GLubyte Indices[] = {
 }
 
 
-#pragma mark UIView CALayer + GLLayer related method
+#pragma mark UIView CALayer + GLLayer setup method
 - (void)setupLayer {
+    //CAEAGLLayer is the subclass of the CALayer
     _eaglLayer = (CAEAGLLayer*) self.layer;
     _eaglLayer.opaque = YES;
 }
 
 - (void)setupContext {
+    //Setup openGl Context for render purpose
     EAGLRenderingAPI api = kEAGLRenderingAPIOpenGLES2;
     _context = [[EAGLContext alloc] initWithAPI:api];
+    
     if (!_context) {
         NSLog(@"Failed to initialize OpenGLES 2.0 context");
         exit(1);
@@ -86,53 +100,29 @@ const GLubyte Indices[] = {
     }
 }
 
-
 - (void)setupRenderBuffer {
+    //Render buffer is openGL object to save the rendered image to present
     glGenRenderbuffers(1, &_colorRenderBuffer);
     glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
+    
+    //Attach a render buffer to EAGL drawable
     [_context renderbufferStorage:GL_RENDERBUFFER fromDrawable:_eaglLayer];
 }
 
 
 - (void)setupFrameBuffer {
+    //Frame Buffer is openGL object that contain a render buffer
+    //others:
+    //-- depth buffer, stencil buffer, accumulation buffer
     GLuint framebuffer;
     glGenFramebuffers(1, &framebuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+    //Attach a renderbuffer object to a framebuffer object
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                               GL_RENDERBUFFER, _colorRenderBuffer);
 }
 
-- (void)render {
-    //clear the screen color with the color here specified
-    glClearColor(0, 104.0/255.0, 55.0/255.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
-    
-    // 1 set the portion of the UIView to use for rendering
-    glViewport(0, 0, self.frame.size.width, self.frame.size.height);
-    
-    // 2 feed the correct values to the two inpue variables for the vertex shader
-    // -->Position
-    // -->SourceColor
-    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE,
-                          sizeof(Vertex), 0);
-    //Final Parameter:
-    //The offset within the struct
-    glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE,
-                          sizeof(Vertex), (GLvoid*) (sizeof(float) * 3));
-    
-    // 3 To Call Vertex shaders --> then Fragment shaders
-    // (1) triangle is the most popular way
-    // (2) vertices of the the reder -- C style
-    // (3) data type of each individual index
-    // (4) Should be pointer to the indices
-    glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]),
-                   GL_UNSIGNED_BYTE, 0);
-    
-    // Presenct the rendered Buffer on the view
-    [_context presentRenderbuffer:GL_RENDERBUFFER];
-}
-
-#pragma mark OpenGL runtime compiling and linking methods
+#pragma mark - OpenGL runtime compiling and linking methods
 
 //class method to compile shader
 - (void)compileShaders {
@@ -172,6 +162,10 @@ const GLubyte Indices[] = {
     _colorSlot = glGetAttribLocation(programHandle, "SourceColor");
     glEnableVertexAttribArray(_positionSlot);
     glEnableVertexAttribArray(_colorSlot);
+    
+    
+    // Add to bottom of compileShaders
+    _projectionUniform = glGetUniformLocation(programHandle, "Projection");
 }
 
 
@@ -197,7 +191,7 @@ const GLubyte Indices[] = {
     const char * shaderStringUTF8 = [shaderString UTF8String];
     int shaderStringLength = [shaderString length];
     
-    //to give the openGL the shader's source code (which we got from glCreateShader)
+    //To give the openGL the shader's source code (which we got from glCreateShader)
     glShaderSource(shaderHandle, 1, &shaderStringUTF8, &shaderStringLength);
     
     // 4 compile the shader souce code at the run time
@@ -218,6 +212,7 @@ const GLubyte Indices[] = {
     
 }
 
+#pragma mark - Input Paramerters to openGL program
 //method for the vertex buffer objects
 - (void)setupVBOs {
     //Setup the vertex and indices
@@ -233,6 +228,47 @@ const GLubyte Indices[] = {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
     
 }
+
+#pragma mark - Render result output method 
+
+- (void)render {
+    //clear the screen color with the color here specified
+    glClearColor(0, 104.0/255.0, 55.0/255.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    
+    // Add to render, right before the call to glViewport
+    CC3GLMatrix *projection = [CC3GLMatrix matrix];
+    float h = 4.0f * self.frame.size.height / self.frame.size.width;
+    [projection populateFromFrustumLeft:-2 andRight:2 andBottom:-h/2 andTop:h/2 andNear:4 andFar:10];
+    glUniformMatrix4fv(_projectionUniform, 1, 0, projection.glMatrix);
+    
+    
+    // 1 set the portion of the UIView to use for rendering
+    glViewport(0, 0, self.frame.size.width, self.frame.size.height);
+    
+    // 2 feed the correct values to the two inpue variables for the vertex shader
+    // -->Position
+    // -->SourceColor
+    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE,
+                          sizeof(Vertex), 0);
+    //Final Parameter:
+    //The offset within the struct
+    glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE,
+                          sizeof(Vertex), (GLvoid*) (sizeof(float) * 3));
+    
+    // 3 To Call Vertex shaders --> then Fragment shaders
+    // (1) triangle is the most popular way
+    // (2) vertices of the the reder -- C style
+    // (3) data type of each individual index
+    // (4) Should be pointer to the indices
+    glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]),
+                   GL_UNSIGNED_BYTE, 0);
+    
+    // Presenct the rendered Buffer on the view
+    [_context presentRenderbuffer:GL_RENDERBUFFER];
+}
+
 
 
 

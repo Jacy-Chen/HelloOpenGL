@@ -18,6 +18,7 @@
     GLuint _colorRenderBuffer;
     GLuint _positionSlot;
     GLuint _colorSlot;
+    GLuint _projectionUniform;
 }
 
 @end
