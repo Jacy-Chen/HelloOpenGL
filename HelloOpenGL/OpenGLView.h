@@ -15,10 +15,11 @@
 @interface OpenGLView : UIView{
     CAEAGLLayer* _eaglLayer;
     EAGLContext* _context;
-    GLuint _colorRenderBuffer;
-    GLuint _positionSlot;
-    GLuint _colorSlot;
-    GLuint _projectionUniform;
+    
+    GLuint _colorRenderBuffer;      //颜色渲染
+    GLuint _positionSlot;           //位置
+    GLuint _colorSlot;              //颜色
+    GLuint _projectionUniform;      //投影位置
 }
 
 @end

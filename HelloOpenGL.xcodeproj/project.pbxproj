@@ -66,6 +66,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A74C91B1D54114E000D701D /* MathLibFile */ = {
+			isa = PBXGroup;
+			children = (
+				4AFA68711D2C86DF00CD675B /* CC3Kazmath.c */,
+				4AFA68721D2C86DF00CD675B /* CC3Kazmath.h */,
+				4AFA68731D2C86DF00CD675B /* CC3Logging.h */,
+				4AFA68741D2C86DF00CD675B /* CC3Math.h */,
+				4AFA68751D2C86DF00CD675B /* CC3Math.m */,
+				4AFA68761D2C86DF00CD675B /* ccTypes.h */,
+				4AFA686E1D2C86B900CD675B /* CC3Foundation.h */,
+				4AFA686F1D2C86B900CD675B /* CC3Foundation.m */,
+				4AFA686B1D2C85F300CD675B /* CC3GLMatrix.h */,
+				4AFA686C1D2C85F300CD675B /* CC3GLMatrix.m */,
+			);
+			name = MathLibFile;
+			sourceTree = "<group>";
+		};
+		4A74C91C1D541167000D701D /* openGL */ = {
+			isa = PBXGroup;
+			children = (
+				4AFA68671D2C4BE700CD675B /* SimpleVertex.glsl */,
+				4AFA68691D2C4D3100CD675B /* SimpleFragment.glsl */,
+			);
+			name = openGL;
+			sourceTree = "<group>";
+		};
+		4A74C91D1D541173000D701D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4A74C91C1D541167000D701D /* openGL */,
+				4AFA68601D2C400D00CD675B /* OpenGLView.h */,
+				4AFA68611D2C400D00CD675B /* OpenGLView.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		4A74C91E1D54119A000D701D /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4AFA684F1D2C3FC800CD675B /* ViewController.h */,
+				4AFA68501D2C3FC800CD675B /* ViewController.m */,
+			);
+			name = ViewController;
+			sourceTree = "<group>";
+		};
 		4AFA683D1D2C3FC800CD675B = {
 			isa = PBXGroup;
 			children = (
@@ -87,29 +132,15 @@
 		4AFA68481D2C3FC800CD675B /* HelloOpenGL */ = {
 			isa = PBXGroup;
 			children = (
-				4AFA68711D2C86DF00CD675B /* CC3Kazmath.c */,
-				4AFA68721D2C86DF00CD675B /* CC3Kazmath.h */,
-				4AFA68731D2C86DF00CD675B /* CC3Logging.h */,
-				4AFA68741D2C86DF00CD675B /* CC3Math.h */,
-				4AFA68751D2C86DF00CD675B /* CC3Math.m */,
-				4AFA68761D2C86DF00CD675B /* ccTypes.h */,
-				4AFA686E1D2C86B900CD675B /* CC3Foundation.h */,
-				4AFA686F1D2C86B900CD675B /* CC3Foundation.m */,
-				4AFA686B1D2C85F300CD675B /* CC3GLMatrix.h */,
-				4AFA686C1D2C85F300CD675B /* CC3GLMatrix.m */,
 				4AFA684C1D2C3FC800CD675B /* AppDelegate.h */,
 				4AFA684D1D2C3FC800CD675B /* AppDelegate.m */,
-				4AFA684F1D2C3FC800CD675B /* ViewController.h */,
-				4AFA68501D2C3FC800CD675B /* ViewController.m */,
-				4AFA68521D2C3FC800CD675B /* Main.storyboard */,
+				4A74C91D1D541173000D701D /* View */,
+				4A74C91E1D54119A000D701D /* ViewController */,
+				4AFA68491D2C3FC800CD675B /* Supporting Files */,
+				4A74C91B1D54114E000D701D /* MathLibFile */,
 				4AFA68551D2C3FC800CD675B /* Assets.xcassets */,
 				4AFA68571D2C3FC800CD675B /* LaunchScreen.storyboard */,
-				4AFA685A1D2C3FC800CD675B /* Info.plist */,
-				4AFA68491D2C3FC800CD675B /* Supporting Files */,
-				4AFA68601D2C400D00CD675B /* OpenGLView.h */,
-				4AFA68611D2C400D00CD675B /* OpenGLView.m */,
-				4AFA68671D2C4BE700CD675B /* SimpleVertex.glsl */,
-				4AFA68691D2C4D3100CD675B /* SimpleFragment.glsl */,
+				4AFA68521D2C3FC800CD675B /* Main.storyboard */,
 			);
 			path = HelloOpenGL;
 			sourceTree = "<group>";
@@ -117,6 +148,7 @@
 		4AFA68491D2C3FC800CD675B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4AFA685A1D2C3FC800CD675B /* Info.plist */,
 				4AFA684A1D2C3FC800CD675B /* main.m */,
 			);
 			name = "Supporting Files";
@@ -350,6 +382,7 @@
 				4AFA685F1D2C3FC800CD675B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

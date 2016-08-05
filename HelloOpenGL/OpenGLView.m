@@ -10,6 +10,7 @@
 #import "CC3GLMatrix.h"
 
 //structure for vertexs
+//顶点有颜色和位置，3D坐标
 typedef struct {
     float Position[3];
     float Color[4];
@@ -24,6 +25,7 @@ typedef struct {
 //};
 
 // Modify vertices so they are within projection near/far planes
+// 四个顶点
 const Vertex Vertices[] = {
     {{1, -1, -7}, {1, 0, 0, 1}},
     {{1, 1, -7}, {0, 1, 0, 1}},
@@ -32,6 +34,7 @@ const Vertex Vertices[] = {
 };
 
 //Two triangles with their vertex
+//顶点组成两个三角形
 const GLubyte Indices[] = {
     0, 1, 2,
     2, 3, 0
@@ -48,6 +51,9 @@ const GLubyte Indices[] = {
 {
     self = [super initWithFrame:frame];
     if (self) {
+        //总体来说，是一个api调用的过程
+        //联系
+        //状态
         [self setupLayer];
         [self setupContext];
         
@@ -81,11 +87,12 @@ const GLubyte Indices[] = {
 - (void)setupLayer {
     //CAEAGLLayer is the subclass of the CALayer
     _eaglLayer = (CAEAGLLayer*) self.layer;
-    _eaglLayer.opaque = YES;
+    _eaglLayer.opaque = YES;//不透明的
 }
 
 - (void)setupContext {
     //Setup openGl Context for render purpose
+    //此处决定了使用的是OpenGL ES2
     EAGLRenderingAPI api = kEAGLRenderingAPIOpenGLES2;
     _context = [[EAGLContext alloc] initWithAPI:api];
     
@@ -102,6 +109,7 @@ const GLubyte Indices[] = {
 
 - (void)setupRenderBuffer {
     //Render buffer is openGL object to save the rendered image to present
+    //图片缓存器
     glGenRenderbuffers(1, &_colorRenderBuffer);
     glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
     
@@ -238,6 +246,7 @@ const GLubyte Indices[] = {
     
     
     // Add to render, right before the call to glViewport
+    // 投影器的位置坐标信息
     CC3GLMatrix *projection = [CC3GLMatrix matrix];
     float h = 4.0f * self.frame.size.height / self.frame.size.width;
     [projection populateFromFrustumLeft:-2 andRight:2 andBottom:-h/2 andTop:h/2 andNear:4 andFar:10];
@@ -268,8 +277,6 @@ const GLubyte Indices[] = {
     // Presenct the rendered Buffer on the view
     [_context presentRenderbuffer:GL_RENDERBUFFER];
 }
-
-
 
 
 @end
